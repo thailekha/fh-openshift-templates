@@ -53,6 +53,9 @@ RHMAP 1-Node MBaaS for OpenShift will require the following resources outlined i
   ```bash
   
   cd /directory-to-fh-openshift-templates
+  # first execute the config map creation
+  oc new-app -f rhmap-mbaas-config.json
+  # create the 1 node mbaas
   oc new-app -f fh-mbaas-template-1node.json 
 
   --> Deploying template "1node-mbaas/fh-mbaas" for "fh-mbaas-template-1node.json" to project 1node-mbaas
@@ -60,76 +63,6 @@ RHMAP 1-Node MBaaS for OpenShift will require the following resources outlined i
      fh-mbaas
      ---------
      Red Hat Mobile Backend as a Service template
-
-
-     * With parameters:
-        * FH_CLUSTER=development
-        * FH_MBAASID=default
-        * MONGODB_FHMBAAS_USER=mbaas-user
-        * MONGODB_FHMBAAS_PASSWORD=jiFgyfMQ86mwFNTlJOiD3GV4SqYmhwsAGppy7Ai4 # generated
-        * FHMBAAS_KEY=GYLAB3TsNCeJNxN004sPksCcmXvxsHG8mYYjloeb # generated
-        * MONGODB_KEYFILE_VALUE=D5KvFaVKIjTFH85dNO3V4IHr6V4UuoY3RmKIjsEj3emfYHTb6QW21J8RucQdO0FKMHAkbM5UFxwccpdw5DWXASwkAHRBgg1VT8RBHh1Uolv1aRbUUA3lTnKW3qkWoyboJhk7fYw5eWPDtrWSHNBTJjq2qY4tbbKVuDnl7VLehka1p1YTvxJxWQy6OeyECqmsff18Pg8OybqFdPaQXDtku36St0oHYNe4Kuferowt3KcOtebOEWioSVJ5IkRBa66 # generated
-        * MONGODB_ADMIN_PASSWORD=F213Gk2KdRMxXqKawo2Q4VWKcw8NS11tDqXDV1pW # generated
-        * MONGODB_FORM_PASSWORD=ttvN2BVpRfoBtt7w0dMhq47WYQYIlqwpQXgfnp5K # generated
-        * MONGODB_FHREPORTING_USER=reporting-user
-        * MONGODB_FHREPORTING_PASSWORD=KFUimKrUBVEHqc2Se7tMfMP5vb0k6xMaGmkG41qG # generated
-        * FH_MBAAS_IMAGE=docker.io/feedhenry/fh-mbaas
-        * FH_MBAAS_IMAGE_VERSION=5.4.4-1333
-        * FH_MESSAGING_IMAGE=docker.io/feedhenry/fh-messaging
-        * FH_MESSAGING_IMAGE_VERSION=3.0.7-488
-        * FH_METRICS_IMAGE=docker.io/feedhenry/fh-metrics
-        * FH_METRICS_IMAGE_VERSION=3.0.6-488
-        * FH_STATSD_IMAGE=docker.io/feedhenry/fh-statsd
-        * FH_STATSD_IMAGE_VERSION=2.0.4-127
-        * MONGODB_IMAGE=docker.io/rhmap/mongodb
-        * MONGODB_IMAGE_VERSION=centos-3.2-44
-        * FH_MESSAGING_API_KEY=eNdhKQesCSFBHdlrPO3E7TTgAe1SnuAYXuaty1aQ # generated
-        * FH_METRICS_API_KEY=8Srnf70QicBJkpU7noFGw7rEHHenSJo3TvvbW1Q7 # generated
-        * MBAAS_ROUTER_DNS=
-        * ENDPOINT_COUNT=1
-        * FH_MBAAS_REPLICAS=1
-        * FH_MESSAGING_REPLICAS=1
-        * FH_METRICS_REPLICAS=1
-        * FH_STATSD_API_KEY=su4oWH378DvNuBD2thytes0iNtBK1InSxfNWB83s # generated
-        * FH_DEFAULT_LOG_LEVEL=info
-        * MONGODB_PVC_SIZE=25Gi
-        * SMTP_SERVER=localhost
-        * SMTP_USERNAME=username
-        * SMTP_PASSWORD=password
-        * SMTP_TLS=auto
-        * SMTP_FROM_ADDRESS=admin@example.com
-        * RHMAP_ADMIN_EMAIL=root@localhost
-        * NAGIOS_USER=nagiosadmin
-        * NAGIOS_PASSWORD=BWCdcyNGdc # generated
-        * RHMAP_ROUTER_DNS=localhost
-        * RHMAP_HOSTGROUPS=mbaas
-        * NAGIOS_IMAGE=docker.io/rhmap/nagios4
-        * NAGIOS_IMAGE_VERSION=4.0.8-146
-        * Proxy Url=
-
-  --> Creating resources ...
-    configmap "fh-mbaas-info" created
-    configmap "node-proxy" created
-    service "fh-mbaas-service" created
-    service "fh-messaging-service" created
-    service "fh-metrics-service" created
-    service "fh-statsd-service" created
-    service "mongodb-1" created
-    service "nagios" created
-    serviceaccount "nagios" created
-    rolebinding "nagiosadmin" created
-    persistentvolumeclaim "nagios-claim-1" created
-    deploymentconfig "fh-mbaas" created
-    deploymentconfig "fh-messaging" created
-    deploymentconfig "fh-metrics" created
-    deploymentconfig "fh-statsd" created
-    deploymentconfig "nagios" created
-    persistentvolumeclaim "mongodb-claim-1" created
-    deploymentconfig "mongodb-1" created
-    route "mbaas" created
-    route "nagios" created
-  --> Success
-    Run 'oc status' to view your app.
   
 
   ``` 
@@ -151,7 +84,7 @@ RHMAP 1-Node MBaaS for OpenShift will require the following resources outlined i
 
 - **Check Nagios for all health endpoints**
 
-    - In the web console navigate to Applications -> Pods
+    - In the OpenShift web console navigate to Applications -> Pods
     - Click on the nagios-x-xxx link
     - Navigate to the Environments tab
     - Copy the nagios password
@@ -191,6 +124,9 @@ RHMAP 3-Node MBaaS for OpenShift will require the following resources outlined i
   ```bash
   
   cd /directory-to-fh-openshift-templates
+  # first execute the config map creation
+  oc new-app -f rhmap-mbaas-config.json -p MONGODB_REPLICA_NAME=rs0
+  # create the 3 node mbaas
   oc new-app -f fh-mbaas-template-3node.json 
 
   --> Deploying template "3node-mbaas/fh-mbaas" for "fh-mbaas-template-3node.json" to project 3node-mbaas
@@ -199,84 +135,7 @@ RHMAP 3-Node MBaaS for OpenShift will require the following resources outlined i
      ---------
      Red Hat Mobile Backend as a Service template
 
-
-     * With parameters:
-        * FH_CLUSTER=development
-        * FH_MBAASID=FqYufgceAyicKNO46fvG # generated
-        * MONGODB_FHMBAAS_USER=mbaas-user
-        * MONGODB_FHMBAAS_PASSWORD=6XlNBYoJFsokECGVSs3VC5FR7GJY5OWRGQodavrc # generated
-        * FHMBAAS_KEY=u6KXyxxs6lvR3NodYBL8rUeFvqFBWXC1r6pA5ma0 # generated
-        * MONGODB_KEYFILE_VALUE=oMPoeDk6u4I3qKGJ5k75KeKkpSaU7INAfnw6RYdsBInpxh5DBk5iLAAOxbyfi1ittjvhFqA7mHel1AOQOQF117NMRCC2crkJ1niMjmE2dFs6ARkW4XkfBTsP8P22XTsaow3YUQpBdaGa4j80oSrcxSGwbalhIsQa4xw6gXJ3hYXymoDba4dsQ20AxQ27dx5VHBHot5eoUgux7J4VRiIB46KSp3XUDs2HvuIJgKDFqwDda0LNjwm75WuOgbQsGjk # generated
-        * MONGODB_ADMIN_PASSWORD=YHO7mNwiLa1ONP3YEDlHW5yDTT5EDqlsCr7Pqsb3 # generated
-        * MONGODB_FORM_PASSWORD=CUgucQaoUSmcEDXdK6icysLmgYTXXC30LqBSNQsy # generated
-        * MONGODB_FHREPORTING_USER=reporting-user
-        * MONGODB_FHREPORTING_PASSWORD=vo5ouB4YaL17CvxGsBOff7h8oUuxwd000So3J0jV # generated
-        * FH_MBAAS_IMAGE=docker.io/feedhenry/fh-mbaas
-        * FH_MBAAS_IMAGE_VERSION=5.4.4-1333
-        * FH_MESSAGING_IMAGE=docker.io/feedhenry/fh-messaging
-        * FH_MESSAGING_IMAGE_VERSION=3.0.7-488
-        * FH_METRICS_IMAGE=docker.io/feedhenry/fh-metrics
-        * FH_METRICS_IMAGE_VERSION=3.0.6-488
-        * FH_STATSD_IMAGE=docker.io/feedhenry/fh-statsd
-        * FH_STATSD_IMAGE_VERSION=2.0.4-127
-        * MONGODB_IMAGE=docker.io/rhmap/mongodb
-        * MONGODB_IMAGE_VERSION=centos-3.2-44
-        * FH_MESSAGING_API_KEY=XCFFYjtD2dLq7ubdcYrHcNbEJHvEne5ObCsDNw2o # generated
-        * FH_METRICS_API_KEY=nvXsqga1BLUGclvqf05b7qDNNUjweAcW3GTIFHSL # generated
-        * MBAAS_ROUTER_DNS=
-        * ENDPOINT_COUNT=3
-        * FH_MBAAS_REPLICAS=3
-        * FH_MESSAGING_REPLICAS=3
-        * FH_METRICS_REPLICAS=3
-        * FH_STATSD_API_KEY=Xr3JT8fxKPcQt5k45v3pQ8CV7ReQPYJBPPNeRNxK # generated
-        * FH_DEFAULT_LOG_LEVEL=info
-        * MONGODB_PVC_SIZE=50Gi
-        * SMTP_SERVER=localhost
-        * SMTP_USERNAME=username
-        * SMTP_PASSWORD=password
-        * SMTP_TLS=auto
-        * SMTP_FROM_ADDRESS=admin@example.com
-        * RHMAP_ADMIN_EMAIL=root@localhost
-        * NAGIOS_USER=nagiosadmin
-        * NAGIOS_PASSWORD=CKoKo67M5q # generated
-        * RHMAP_ROUTER_DNS=localhost
-        * RHMAP_HOSTGROUPS=mbaas
-        * NAGIOS_IMAGE=docker.io/rhmap/nagios4
-        * NAGIOS_IMAGE_VERSION=4.0.8-146
-        * MONGODB_REPLICA_NAME=rs0
-        * Proxy Url=
-
-  --> Creating resources ...
-    configmap "fh-mbaas-info" created
-    configmap "node-proxy" created
-    service "fh-mbaas-service" created
-    service "fh-messaging-service" created
-    service "fh-metrics-service" created
-    service "fh-statsd-service" created
-    service "mongodb-1" created
-    service "mongodb-2" created
-    service "mongodb-3" created
-    service "nagios" created
-    serviceaccount "nagios" created
-    rolebinding "nagiosadmin" created
-    persistentvolumeclaim "nagios-claim-1" created
-    deploymentconfig "fh-mbaas" created
-    deploymentconfig "fh-messaging" created
-    deploymentconfig "fh-metrics" created
-    deploymentconfig "fh-statsd" created
-    deploymentconfig "nagios" created
-    persistentvolumeclaim "mongodb-claim-1" created
-    persistentvolumeclaim "mongodb-claim-2" created
-    persistentvolumeclaim "mongodb-claim-3" created
-    deploymentconfig "mongodb-1" created
-    deploymentconfig "mongodb-2" created
-    deploymentconfig "mongodb-3" created
-    pod "mongodb-initiator" created
-    route "mbaas" created
-    route "nagios" created
-  --> Success
-    Run 'oc status' to view your app.
-    
+        
     ```
 
 - **Monitor the deploy on OpenShift**
@@ -304,7 +163,7 @@ RHMAP 3-Node MBaaS for OpenShift will require the following resources outlined i
 
 - **Check Nagios for all health endpoints**
 
-    - In the web console navigate to Applications -> Pods
+    - In the OpenShift web console navigate to Applications -> Pods
     - Click on the nagios-x-xxx link
     - Navigate to the Environments tab
     - Copy the nagios password
