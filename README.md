@@ -11,6 +11,19 @@ The 1 node template creates a single mongodb persistent pod and one replica of e
 
 As mentioned the 3 node mbaas is strongly recommended for production type environments, it makes use of 3 mongodb pods that get deployed on labeled nodes (this is to ensure that the mongodb pods are not deployed on the same nodes), and 3 replicas of fh-mbaas, fh-messaging and fh-metrics with fh-statsd and nagios set for only one replica.
 
+A simple example on labeling the nodes
+
+```bash
+
+oc label node mbaas-1 type=mbaas
+oc label node mbaas-2 type=mbaas
+oc label node mbaas-3 type=mbaas
+
+oc label node mbaas-1 mbaas_id=mbaas1
+oc label node mbaas-2 mbaas_id=mbaas2
+oc label node mbaas-3 mbaas_id=mbaas3
+
+```
 
 ### 1 Node persistent MBaaS
 
@@ -302,4 +315,3 @@ RHMAP 3-Node MBaaS for OpenShift will require the following resources outlined i
 
 ### Troubleshooting
 - Problems usually encountered are to do with docker images (check access and credentials) and PV (persistent volumes)
-- Refer to the troubleshooting guide [https://access.redhat.com/documentation/en-us/red_hat_mobile_application_platform/4.3/html/troubleshooting_guide/]
